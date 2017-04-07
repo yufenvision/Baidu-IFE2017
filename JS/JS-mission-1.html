@@ -19,13 +19,16 @@
 		  在事件处理函数中
 		  获取aqi-input输入的值，并显示在aqi-display中
 		  */
-		  var button=document.getElementById('button');
-		  var input=document.getElementById('aqi-input');
-		  var output=document.getElementById('aqi-display');
+		  var $=function(id){
+		  	return document.getElementById(id);
+		  }
+		  var button=$('button');
+		  var input=$('aqi-input');
+		  var output=$('aqi-display');
 		  button.onclick=function(){
 		  	output.innerHTML=input.value.toString();
 		  }
-		  document.onkeydown=function(e){
+		  input.onkeyup=function(e){
 		  	if(e.keyCode==13){
 		  		button.onclick();
 		  	}
