@@ -1,0 +1,95 @@
+<!DOCTYPE>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 04</title>
+    
+    <style type="text/css">
+    	.display{
+    		margin-top: 20px;
+    	}
+    	.display-item{
+    		background-color: #f00;
+    		height: 30px;
+    		padding: 10px;
+    		margin-right: 10px;
+    	}
+    </style>
+
+  </head>
+	<body>
+		<input id="text" type="text" name="text">
+		<input id="left-in" type="button" name="left-in" value="左侧入">
+		<input id="right-in" type="button" name="right-in" value="右侧入">
+		<input id="left-out" type="button" name="left-out" value="左侧出">
+		<input id="right-out" type="button" name="right-out" value="右侧出">
+		<div class="display"></div>
+
+		<script type="text/javascript">
+			/*有一个input输入框，以及4个操作按钮
+
+		    1、点击"左侧入"，将input中输入的数字从左侧插入队列中；
+		    2、点击"右侧入"，将input中输入的数字从右侧插入队列中；
+		    3、点击"左侧出"，读取并删除队列左侧第一个元素，并弹窗显示元素中数值；
+		    4、点击"右侧出"，读取并删除队列又侧第一个元素，并弹窗显示元素中数值；
+
+			点击队列中任何一个元素，则该元素会被从队列中删除*/
+			var $=function(id){
+				return document.getElementById(id);
+			}
+			var text=$('text');
+			var left_in=$('left-in');
+			var right_in=$('right-in');
+			var left_out=$('left-out');
+			var right_out=$('right-out');
+			var cha=document.getElementsByTagName('div')[0];
+			console.log(cha.chi);
+			var flag;
+
+			// 创建增加输入的方法
+			function createBox(){
+				var item=document.createElement("span");
+				item.setAttribute("class","display-item");
+				item.innerHTML=text.value;
+				console.log(item);
+				if(flag=="right"){
+					cha.appendChild(item);
+				}
+				if(flag=="left"){
+					cha.insertBefore(item,cha.firstChild);
+				}
+			}
+
+			// 创建删除输入的方法
+			function deleteBox(){
+				if(flag=="right"){
+					cha.removeChild(cha.lastChild);
+				}
+				if(flag=="left"){
+					cha.removeChild(cha.firstChild);
+				}
+			}
+
+			//绑定点击事件
+			left_in.onclick=function(){
+				flag="left";
+				createBox();
+			}
+
+			right_in.onclick=function(){
+				flag="right";
+				createBox();
+			}
+
+			left_out.onclick=function(){
+				flag="left";
+				deleteBox();
+			}
+
+			right_out.onclick=function(){
+				flag="right";
+				deleteBox();
+			}
+		</script>
+	</body>
+</html>
