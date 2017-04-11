@@ -1,0 +1,117 @@
+<!DOCTYPE>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 04</title>
+    
+    <style type="text/css">
+    	.display{
+    		margin-top: 20px;
+    	}
+    	.display-item{
+    		background-color: #ccc;
+    		height: 30px;
+    		padding: 10px;
+    		margin-right: 10px;
+    	}
+		.display-item_found{
+			background-color: #0f0;
+		}
+		.search{
+			margin-bottom: 20px;
+		}
+    </style>
+
+  </head>
+	<body>
+		<div class="search">
+			<input id="searchIn" class="searchIn" type="text" name="search" placeholder="请输入查询条件">
+			<input id="searchButton" class="searchButton" type="button" name="searchButton" value="查询">
+		</div>
+
+		<textarea id="text" required="" type="text" name="text" placeholder="请输入内容"></textarea>
+		<input id="left-in" type="button" name="left-in" value="左侧入">
+		<input id="right-in" type="button" name="right-in" value="右侧入">
+		<input id="left-out" type="button" name="left-out" value="左侧出">
+		<input id="right-out" type="button" name="right-out" value="右侧出">
+		<div id="display" class="display"></div>
+
+
+		<script type="text/javascript">
+			/*
+			    1、基于任务四进行升级
+			    2、将新元素输入框从input改为textarea
+			    3、允许一次批量输入多个内容，格式可以为数字、中文、英文等，可以通过用回车，逗号（全角半角均可），顿号，空格（全角半角、Tab等均可）等符号作为不同内容的间隔
+			    4、增加一个查询文本输入框，和一个查询按钮，当点击查询时，将查询词在各个元素内容中做模糊匹配，将匹配到的内容进行特殊标识，如文字颜色等。举例，内容中有abcd，查询词为ab或bc，则该内容需要标识
+			*/
+			var $=function(id){
+				return document.getElementById(id);
+			}
+			var text=$('text');
+			var left_in=$('left-in');
+			var right_in=$('right-in');
+			var left_out=$('left-out');
+			var right_out=$('right-out');
+			var cha=$('display');
+			var flag;
+			// 创建增加输入的方法
+			function createBox(){
+				var item=document.createElement("span");
+				item.setAttribute("class","display-item");
+				item.innerHTML=text.value;
+				if(flag=="right"){
+					cha.appendChild(item);
+				}
+				if(flag=="left"){
+					cha.insertBefore(item,cha.firstChild);
+				}
+			}
+			// 创建删除输入的方法
+			function deleteBox(){
+				if(flag=="right"){
+					cha.removeChild(cha.lastChild);
+				}
+				if(flag=="left"){
+					cha.removeChild(cha.firstChild);
+				}
+			}
+			//绑定点击事件
+			left_in.onclick=function(){
+				flag="left";
+				createBox();
+			}
+			right_in.onclick=function(){
+				flag="right";
+				createBox();
+			}
+			left_out.onclick=function(){
+				flag="left";
+				deleteBox();
+			}
+			right_out.onclick=function(){
+				flag="right";
+				deleteBox();
+			}
+
+			//创建查询方法
+			function search(arg){
+				var condition=$('searchIn').value;
+				var reg=new RegExp(condition,"gi");
+				if(condition!=''&&arg.innerHTML.search(reg)!=-1){
+					var basic=arg.getAttribute('class');
+					arg.setAttribute('class',basic+' '+basic+'_found');
+				}
+			}
+
+			// 给查询按钮绑定事件
+			$('searchButton').onclick=function(){
+				var goal=cha.getElementsByTagName('span');
+				for(var i=0;i<goal.length;i++){
+					search(goal[i]);
+				}
+			}
+		</script>
+	</body>
+</html>
+
+
